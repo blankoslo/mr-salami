@@ -1,6 +1,24 @@
-# Hvordan koble til prod (dette kan være enklere, men farligere hehe)
+# Hvordan kjøre prosjektet
+
+Sett opp docker og databasen, se lenger ned
+
+Installer avhengigheter
+
+```bash
+> pip install -r requirements.txt
+```
+
+Kjør applikasjonen
+
+```bash
+> gunicorn web_api:app
+```
+
+
 
 # Hvordan sette opp database lokalt?
+
+Du kan også snakke rett med vår produksjonsinstans, spør Theodor om database urlen.
 
 Installere en klient som kan snakke med databasen
 
