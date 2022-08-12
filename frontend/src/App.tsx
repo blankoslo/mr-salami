@@ -1,12 +1,18 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ThemeProvider, Grid, Typography } from '@mui/material';
-import { Container } from '@mui/system';
+import { ThemeProvider } from '@mui/material';
 import { CssBaseline } from '@mui/material';
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 import theme from 'theme';
 
-import PizzaEvents from 'components/PizzaEvents';
-import { fetchAllPizzaEvents, fetchUpcomingPizzaEvents } from 'queries';
+import HomePage from 'pages/Home';
+import NewEventPage from 'pages/NewEventPage';
+import { Fragment } from 'react';
 
 const queryClient = new QueryClient()
 
@@ -15,19 +21,14 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <QueryClientProvider client={queryClient}>
-          <Container>
-            <h1>Pizza Events</h1>
-            <Grid container spacing={3}>
-              <Grid item xs={6}>
-                <Typography variant="h6" component="h6">Upcoming</Typography>
-                <PizzaEvents queryKey={['upcomingPizzaEvents']} query={fetchUpcomingPizzaEvents}/>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography variant="h6" component="h6">Old</Typography>
-                <PizzaEvents queryKey={['allPizzaEvents']} query={fetchAllPizzaEvents}/>
-              </Grid>
-            </Grid>
-          </Container>
+
+        <Router>
+            <Routes>
+              <Route path="/new-event" element={<NewEventPage />} />
+              <Route path="/" element={<HomePage />} />
+            </Routes>
+        </Router>
+
       </QueryClientProvider>
     </ThemeProvider>
   );
