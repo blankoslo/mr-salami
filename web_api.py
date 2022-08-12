@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 from flask import Flask, request, Response
 from flask_cors import cross_origin
 #import requests
@@ -26,14 +27,17 @@ def action():
 @app.route("/api/events", methods=['GET', 'POST'])
 @cross_origin()
 def events():
-    if request.method == 'GET':
-        raw_events = db.get_previous_pizza_events()
-        events = [{"time": a[0], "place":a[1], "attendees":a[2].split(', ')} for a in raw_events]
-        return events
+    if request.headers["X-PASSWORD"] == secret_pass:
+        if request.method == 'GET':
+            raw_events = db.get_previous_pizza_events()
+            events = [{"time": a[0], "place":a[1], "attendees":a[2].split(', ')} for a in raw_events]
+            return events
+        else:
+            event = request.json['event']
+            db.create_new_pizza_event(convert_datetime_object_to_timestamp(event['time']), event["place"])
+            return '', 201
     else:
-        event = request.json['event']
-        db.create_new_pizza_event(convert_datetime_object_to_timestamp(event['time']), event["place"])
-        return '', 201
+        return "Wrong password buddy", 401
 
 
 def convert_datetime_object_to_timestamp(date):
@@ -42,12 +46,16 @@ def convert_datetime_object_to_timestamp(date):
     timestamp = f"{strings[3]}{months[strings[1]]}{strings[2]} {strings[4]} GMT"
     return timestamp
 
+secret_pass = os.environ.get("SECRET_PASS")
 
 @app.route("/api/future_events", methods=['GET'])
 @cross_origin()
 def future_events():
-    raw_events = db.get_future_pizza_events()
-    return raw_events_to_list_of_dict(raw_events)
+    if request.headers["X-PASSWORD"] == secret_pass:
+        raw_events = db.get_future_pizza_events()
+        return raw_events_to_list_of_dict(raw_events)
+    else:
+        return "Wrong password buddy", 401
 
 def raw_events_to_list_of_dict(raw_events):
     out_list = []
