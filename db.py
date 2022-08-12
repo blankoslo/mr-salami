@@ -8,8 +8,14 @@ def create_connection_string(db_host, db_name, db_user, db_passwd):
 
 
 def connect_to_pizza_db():
-    conn = connect(os.environ["DATABASE_URL"])
-    return conn
+    if database_url := os.environ.get("DATABASE_URL", default=None):
+        return connect(database_url)
+    else:
+        db_host ="localhost"
+        db_name = "postgres"
+        db_user = "postgres"
+        db_passwd = "password"
+        return connect(create_connection_string(db_host, db_name, db_user,db_passwd))
 
 
 pizza_conn = connect_to_pizza_db()
