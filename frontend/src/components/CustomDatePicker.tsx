@@ -4,14 +4,16 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 
+import { CustomDatePickerProps } from 'types';
 
-function CustomDatePicker() {
+function CustomDatePicker({ onValueChanged } : CustomDatePickerProps) {
     const [value, setValue] = useState<Date | null>(
-        new Date('2014-08-18T21:11:54'),
+        new Date(),
       );
     
       const handleChange = (newValue: Date | null) => {
         setValue(newValue);
+        onValueChanged(newValue);
       };
 
     return (
