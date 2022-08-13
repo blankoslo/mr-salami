@@ -208,7 +208,7 @@ def get_future_pizza_events():
         GROUP BY
             events.id
         ORDER BY
-            time DESC;
+            time ASC;
     """
     with pizza_conn:
         with pizza_conn.cursor() as curs:
