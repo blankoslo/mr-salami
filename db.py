@@ -242,3 +242,22 @@ def create_restaurant(restaurant):
     with pizza_conn:
         with pizza_conn.cursor() as curs:
             curs.execute(sql, list(restaurant.values())) 
+
+def edit_restaurant(id, restaurant):
+    sql = """
+        UPDATE restaurants
+        SET name = %s, address = %s, phone_number = %s 
+        WHERE id = %s;
+    """
+    with pizza_conn:
+        with pizza_conn.cursor() as curs:
+            curs.execute(sql, (restaurant['name'], restaurant['address'], restaurant['phone_number'], id)) 
+
+def delete_restaurant(restaurant_id):
+    sql = """
+        DELETE FROM restaurants 
+        WHERE id = %s;
+    """
+    with pizza_conn:
+        with pizza_conn.cursor() as curs:
+            curs.execute(sql, (restaurant_id,)) 
