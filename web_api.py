@@ -74,7 +74,7 @@ def restaurants():
                 "phone_number": restaurant[3]
             })
         return restaurants
-        
+
     else:
         restaurant = request.json['restaurant']
         db.create_restaurant(restaurant)
@@ -85,6 +85,9 @@ def restaurants():
 def edit_restaurants(id):
     if request.method == 'DELETE':
         db.delete_restaurant(str(id))
+    elif request.method == 'PUT':
+        restaurant = request.json['restaurant']
+        db.edit_restaurant(str(id), restaurant)
     return ""
 
 
