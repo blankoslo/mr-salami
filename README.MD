@@ -5,15 +5,23 @@ Sett opp docker og databasen, se lenger ned
 Installer avhengigheter
 
 ```bash
-> pip install -r requirements.txt
+mr-salami> pip install -r requirements.txt
+mr-salami> cd frontend
+mr-salami/frontend> npm install
 ```
 
-Kjør applikasjonen
+Kjør applikasjonen på port 8080
+Husk å source venvet ditt, står det ikke "(venv)" på starten av prompten din har du ikke aktivert den
 
 ```bash
-> gunicorn web_api:app
+mr-salami> source venv/bin/activate
+(venv) mr-salami> gunicorn web_api:app -b :8080
 ```
 
+Kjøre frontend
+```bash
+mr-salami/frontend> npm start
+```
 
 
 # Hvordan sette opp database lokalt?
@@ -23,7 +31,7 @@ Du kan også snakke rett med vår produksjonsinstans, spør Theodor om database 
 Installere en klient som kan snakke med databasen
 
 ```
-$ brew install pgcli #eventuelt installer hele postgresql
+$ brew install postgres
 ```
 
 Starte databasen
