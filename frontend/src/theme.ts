@@ -19,12 +19,12 @@ const theme = createTheme({
           dark: '#FFFCB6',
           contrastText: '#272D2A',
         },
-        text: {
-            primary: '#FFFCB6',
-        },
-        background: {
-            default: '#272D2A',
-        }
+        // text: {
+        //     primary: '#FFFCB6',
+        // },
+        // background: {
+        //     default: '#272D2A',
+        // }
     },
   });
   
