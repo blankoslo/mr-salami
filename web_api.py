@@ -75,7 +75,7 @@ def raw_events_to_list_of_dict(raw_events):
     return out_list
 
 @app.route("/api/restaurants", methods=['GET', 'POST'])
-@cross_origin()
+@auth.login_required
 def restaurants():
     if request.method == 'GET':
         raw_restaurants = db.get_restaurants()
@@ -95,7 +95,7 @@ def restaurants():
         return '', 201
 
 @app.route("/api/restaurants/<id>", methods=['PUT', 'DELETE'])
-@cross_origin()
+@auth.login_required
 def edit_restaurants(id):
     if request.method == 'DELETE':
         db.delete_restaurant(str(id))
