@@ -2,12 +2,14 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, request, Response
-from flask_cors import cross_origin
+from flask_cors import CORS
 #import requests
 import json
 #import api
 import db
 app = Flask(__name__)
+
+CORS(app)
 
 
 @app.route("/api/action", methods=['GET', 'POST'])
@@ -24,7 +26,6 @@ def action():
     return '', 200
 
 @app.route("/api/events", methods=['GET', 'POST'])
-@cross_origin()
 def events():
     if request.method == 'GET':
         raw_events = db.get_previous_pizza_events()
@@ -44,7 +45,6 @@ def convert_datetime_object_to_timestamp(date):
 
 
 @app.route("/api/future_events", methods=['GET'])
-@cross_origin()
 def future_events():
     raw_events = db.get_future_pizza_events()
     return raw_events_to_list_of_dict(raw_events)
