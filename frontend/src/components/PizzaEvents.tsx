@@ -25,8 +25,9 @@ function PizzaEvents({ queryKey, query } : PizzaEventProps) {
   return (
     <>
         {
-            data.map((pizzaEvent : IPizzaEvent) => {
+            data.map((pizzaEvent : IPizzaEvent, index: number) => {
                 return <PizzaEvent 
+                    key={index}
                     time={pizzaEvent.time} 
                     place={pizzaEvent.place} 
                     attendees={pizzaEvent.attendees} 
@@ -42,8 +43,8 @@ function PizzaEvent({time, place, attendees }: IPizzaEvent) {
         <>
             <p><b>{place}</b> - {time}</p>
             <ul>
-                {attendees.map(attendee => {
-                    return <li>{attendee}</li>
+                {attendees.map((attendee, index) => {
+                    return <li key={index}>{attendee}</li>
                 })}
             </ul>
         </>
