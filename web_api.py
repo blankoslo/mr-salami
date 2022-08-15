@@ -60,6 +60,17 @@ def raw_events_to_list_of_dict(raw_events):
         out_list.append(event_dict)
     return out_list
 
+@app.route("/api/restaurants", methods=['GET', 'POST'])
+@cross_origin()
+def restaurants():
+    if request.method == 'GET':
+        restaurants = db.get_restaurants()
+        return restaurants
+    else:
+        restaurant = request.json['restaurant']
+        db.create_restaurant(restaurant)
+        return '', 201
+
 def button_rsvp(user_id, rsvp, original_message, response_url):
     if user_id in api.get_invited_users():
         api.rsvp(user_id, rsvp)
