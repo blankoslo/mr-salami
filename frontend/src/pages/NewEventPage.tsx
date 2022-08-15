@@ -3,15 +3,23 @@ import { Container, Button, Grid, TextField, CircularProgress, Snackbar, Alert }
 
 import { Link } from 'react-router-dom';
 
-import { postNewPizzaEvent } from 'queries';
-import { useMutation } from '@tanstack/react-query';
+import { fetchUpcomingPizzaEvents, postNewPizzaEvent } from 'queries';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import CustomDatePicker from "components/CustomDatePicker";
 import { INewPizzaEvent, CustomSnackbarProps } from 'types';
+import PizzaEvents from 'components/PizzaEvents';
 
 function NewEventPage() {
 
-    const mutation = useMutation(postNewPizzaEvent)
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation(postNewPizzaEvent, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['upcomingPizzaEvents']);
+            queryClient.invalidateQueries(['allPizzaEvents']);
+        }
+    });
 
     const [pizzaPlace, setPizzaPlace] = useState("");
     const [dateTime, setDateTime] = useState<Date | null>(new Date());
@@ -61,39 +69,43 @@ function NewEventPage() {
             }
 
             <h1>Add new event</h1>
-            <form>
-            <Grid container direction="column" spacing={3}>
-                <Grid item>
-                    <TextField 
-                        required
-                        id="place"
-                        label="Place"
-                        value={pizzaPlace}
-                        onChange={handlePizzaPlaceChange}
-                        />
-                </Grid>
-                <Grid item>
-                    <CustomDatePicker onValueChanged={setDateTime}/>
-                </Grid>
-                <Grid container item direction="row" spacing={3}>
+            <Grid container spacing={3}>
+                <Grid item xs={6} container direction="column" spacing={3}>
                     <Grid item>
-                        {
-                            mutation.isLoading
-                            ? <CircularProgress />
-                            : <Button 
-                                disabled={pizzaPlace === ''}
-                                variant="contained"
-                                onClick={handleEventSubmit}>
-                                    Add
-                                </Button>
-                        }
+                        <TextField 
+                            required
+                            id="place"
+                            label="Place"
+                            value={pizzaPlace}
+                            onChange={handlePizzaPlaceChange}
+                            />
                     </Grid>
                     <Grid item>
-                        <Button component={Link} to="/" variant="text">Cancel</Button>
+                        <CustomDatePicker onValueChanged={setDateTime}/>
                     </Grid>
+                    <Grid container item direction="row" spacing={3}>
+                        <Grid item>
+                            {
+                                mutation.isLoading
+                                ? <CircularProgress />
+                                : <Button 
+                                    disabled={pizzaPlace === ''}
+                                    variant="contained"
+                                    onClick={handleEventSubmit}>
+                                        Add
+                                    </Button>
+                            }
+                        </Grid>
+                        <Grid item>
+                            <Button component={Link} to="/" variant="text">Cancel</Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item xs={6}>
+                    <h2>Upcoming events</h2>
+                    <PizzaEvents queryKey={['upcomingPizzaEvents']} query={fetchUpcomingPizzaEvents}/>
                 </Grid>
             </Grid>
-            </form>
         </Container>
     )
 }
