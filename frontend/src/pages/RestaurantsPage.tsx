@@ -3,10 +3,11 @@ import { Container, Button, Grid, TextField, CircularProgress, Snackbar, Alert, 
 
 import { Link } from 'react-router-dom';
 
-import { postNewRestaurant } from 'queries';
+import { fetchUpcomingPizzaEvents, postNewRestaurant } from 'queries';
 import { useMutation } from '@tanstack/react-query';
 
 import { IRestaurant, CustomSnackbarProps } from 'types';
+import PizzaEvents from 'components/PizzaEvents';
 
 function RestaurantsPage() {
 
@@ -68,51 +69,58 @@ function RestaurantsPage() {
                     <Typography variant="h3" component="h3">Restaurants</Typography>
                 </Grid>
 
-                <Grid item container direction="column" spacing={3}>
-                    <Grid item>
-                        <Typography variant="h6" component="h6">Add new restaurant</Typography>
-                    </Grid>
-                    <Grid item>
-                        <TextField 
-                            required
-                            id="place"
-                            label="Name"
-                            value={pizzaPlace}
-                            onChange={handlePizzaPlaceChange}
-                            />
-                    </Grid>
-                    <Grid item>
-                        <TextField 
-                            id="address"
-                            label="Address"
-                            value={address}
-                            onChange={handleAddressChange}
-                            />
-                    </Grid>
-                    <Grid item>
-                        <TextField 
-                            id="phoneNumber"
-                            label="Phone number"
-                            value={phoneNumber}
-                            onChange={handlePhoneNumberChange}
-                            />
-                    </Grid>
-                    <Grid container item direction="row" spacing={3}>
+                <Grid item container spacing={3}>
+
+                    <Grid item container xs={6} direction="column" spacing={3}>
                         <Grid item>
-                            {
-                                mutation.isLoading
-                                ? <CircularProgress />
-                                : <Button 
-                                    disabled={pizzaPlace === ''}
-                                    variant="contained"
-                                    onClick={handleRestaurantSubmit}>
-                                        Add
-                                    </Button>
-                            }
+                            <Typography variant="h6" component="h6">Add new restaurant</Typography>
                         </Grid>
                         <Grid item>
-                            <Button component={Link} to="/" variant="text">Cancel</Button>
+                            <TextField 
+                                required
+                                id="place"
+                                label="Name"
+                                value={pizzaPlace}
+                                onChange={handlePizzaPlaceChange}
+                                />
                         </Grid>
+                        <Grid item>
+                            <TextField 
+                                id="address"
+                                label="Address"
+                                value={address}
+                                onChange={handleAddressChange}
+                                />
+                        </Grid>
+                        <Grid item>
+                            <TextField 
+                                id="phoneNumber"
+                                label="Phone number"
+                                value={phoneNumber}
+                                onChange={handlePhoneNumberChange}
+                                />
+                        </Grid>
+                        <Grid container item direction="row" spacing={3}>
+                            <Grid item>
+                                {
+                                    mutation.isLoading
+                                    ? <CircularProgress />
+                                    : <Button 
+                                        disabled={pizzaPlace === ''}
+                                        variant="contained"
+                                        onClick={handleRestaurantSubmit}>
+                                            Add
+                                        </Button>
+                                }
+                            </Grid>
+                            <Grid item>
+                                <Button component={Link} to="/" variant="text">Cancel</Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <PizzaEvents queryKey={["upcomingEvents"]} query={fetchUpcomingPizzaEvents} />
                     </Grid>
                 </Grid>
             </Grid>
