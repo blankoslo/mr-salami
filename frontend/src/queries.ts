@@ -1,4 +1,4 @@
-import { INewPizzaEvent, IRestaurant } from "types";
+import { INewPizzaEvent, INewRestaurant } from "types";
 
 const PROD = "https://oppstart22-gruppe2-pizzabot.herokuapp.com"
 const DEV = "http://localhost:8080"
@@ -75,7 +75,7 @@ export const fetchAllRestaurants = async () => {
     return res.json();
 }
 
-export const postNewRestaurant = async (data : IRestaurant) => {
+export const postNewRestaurant = async (data : INewRestaurant) => {
     const res = await fetch('http://localhost:8080/api/restaurants', {
         method: 'POST',
         headers: {

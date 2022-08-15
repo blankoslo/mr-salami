@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { PizzaEventProps } from 'types';
+import { IRestaurant, PizzaEventProps } from 'types';
 import { Box, Typography } from '@mui/material';
 
 function Restaurants({ queryKey, query } : PizzaEventProps) {
@@ -22,19 +22,31 @@ function Restaurants({ queryKey, query } : PizzaEventProps) {
       )
   }
 
-  console.log(data[0][1]);
-
   return (
-      <Restaurant />
+      <>
+        {
+            data.map((restaurant : IRestaurant) => {
+                return (
+                    <Restaurant
+                        key={restaurant.id}
+                        id={restaurant.id}
+                        name={restaurant.name}
+                        address={restaurant.address}
+                        phone_number={restaurant.phone_number}
+                    />
+                )
+            })
+        }
+      </>
   )
 }
 
-function Restaurant() {
+function Restaurant({ name, phone_number, address } : IRestaurant) {
     return (
-        <Box>
-            <Typography variant="h6" component="p">Peppes Pizza</Typography>
-            <Typography variant="body2" component="p">Karl Johans gate 1</Typography>
-            <Typography variant="body2" component="p">+47 22 22 55 55</Typography>
+        <Box sx={{ mb: 3 }}>
+            <Typography variant="h6" component="p">{name}</Typography>
+            <Typography variant="body2" component="p">{address}</Typography>
+            <Typography variant="body2" component="p">{phone_number}</Typography>
         </Box>
     )
 }

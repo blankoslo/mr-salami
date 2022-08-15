@@ -4,14 +4,20 @@ import { Container, Button, Grid, TextField, CircularProgress, Snackbar, Alert, 
 import { Link } from 'react-router-dom';
 
 import { fetchAllRestaurants, postNewRestaurant } from 'queries';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { IRestaurant, CustomSnackbarProps } from 'types';
+import { INewRestaurant, CustomSnackbarProps } from 'types';
 import Restaurants from 'components/Restaurants';
 
 function RestaurantsPage() {
 
-    const mutation = useMutation(postNewRestaurant)
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation(postNewRestaurant, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['restaurants']);
+        }
+    });
 
     const [pizzaPlace, setPizzaPlace] = useState("");
     const [address, setAddress] = useState("");
@@ -30,9 +36,9 @@ function RestaurantsPage() {
     }
 
     const handleRestaurantSubmit = (e: any) => {
-        e.preventDefault();
+        // e.preventDefault();
 
-        const newRestaurantData: IRestaurant = {
+        const newRestaurantData: INewRestaurant = {
             restaurant: {
                 name: pizzaPlace,
                 address: address,
