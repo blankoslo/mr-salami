@@ -1,11 +1,13 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider } from '@mui/material';
 import { CssBaseline } from '@mui/material';
+import Login from 'components/Login';
 
 import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom";
 
 import theme from 'theme';
@@ -16,6 +18,14 @@ import { Fragment } from 'react';
 
 const queryClient = new QueryClient()
 
+const ProtectedRoute = ({ children }:any) => {
+  if (!localStorage.hasOwnProperty("username") || !localStorage.hasOwnProperty("password")) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+};
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -25,7 +35,14 @@ function App() {
         <Router>
             <Routes>
               <Route path="/new-event" element={<NewEventPage />} />
-              <Route path="/" element={<HomePage />} />
+              <Route 
+              path="/"
+              element={
+              <ProtectedRoute>
+                <HomePage />
+              </ProtectedRoute>
+              } />
+              <Route path="/login" element={<Login />} />
             </Routes>
         </Router>
 
