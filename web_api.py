@@ -1,13 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 from flask import Flask, request, Response
-from flask_cors import cross_origin
+from flask_cors import CORS
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 #import requests
 import json
 #import api
 import db
 app = Flask(__name__)
+
+CORS(app)
+auth = HTTPBasicAuth()
+
+admin_username = os.environ.get("ADMIN_USERNAME")
+admin_password = os.environ.get("ADMIN_PASS")
+
+@auth.verify_password
+def verify_password(username, password):
+    if username == admin_username and password == admin_password:
+        return username
 
 
 @app.route("/api/action", methods=['GET', 'POST'])
@@ -24,7 +38,7 @@ def action():
     return '', 200
 
 @app.route("/api/events", methods=['GET', 'POST'])
-@cross_origin()
+@auth.login_required
 def events():
     if request.method == 'GET':
         raw_events = db.get_previous_pizza_events()
@@ -44,7 +58,7 @@ def convert_datetime_object_to_timestamp(date):
 
 
 @app.route("/api/future_events", methods=['GET'])
-@cross_origin()
+@auth.login_required
 def future_events():
     raw_events = db.get_future_pizza_events()
     return raw_events_to_list_of_dict(raw_events)
