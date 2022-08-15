@@ -6,10 +6,10 @@ export interface IPizzaEvent {
     attendees: string[],
 }
 
-export interface Restaurant {
+export interface IRestaurant {
     name: string,
-    location: string,
-    phonenumber: string,
+    address: string,
+    phoneNumber: string,
 }
 
 export interface PizzaEventProps {
