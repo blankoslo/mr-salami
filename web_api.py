@@ -71,6 +71,14 @@ def restaurants():
         db.create_restaurant(restaurant)
         return '', 201
 
+@app.route("/api/restaurants/<id>", methods=['PUT', 'DELETE'])
+@cross_origin()
+def edit_restaurants(id):
+    if request.method == 'DELETE':
+        db.delete_restaurant(str(id))
+    return ""
+
+
 def button_rsvp(user_id, rsvp, original_message, response_url):
     if user_id in api.get_invited_users():
         api.rsvp(user_id, rsvp)
