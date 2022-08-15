@@ -76,7 +76,7 @@ export const fetchAllRestaurants = async () => {
 }
 
 export const postNewRestaurant = async (data : IRestaurant) => {
-    const res = await fetch('http://localhost:8080/api/restaurant', {
+    const res = await fetch('http://localhost:8080/api/restaurants', {
         method: 'POST',
         headers: {
         'Accept': 'application/json',
