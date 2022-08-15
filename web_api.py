@@ -82,5 +82,3 @@ def button_rsvp(user_id, rsvp, original_message, response_url):
 def response_message(original_message, text):
     original_message['attachments'] = [{'text': text}]
     return json.dumps(original_message)
-
-app.run(host="0.0.0.0",port=8080)

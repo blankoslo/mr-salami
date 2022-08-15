@@ -8,14 +8,14 @@ def create_connection_string(db_host, db_name, db_user, db_passwd):
 
 
 def connect_to_pizza_db():
-    db_host = "localhost"
-    db_name = "postgres"
-    db_user = "postgres"
-    db_passwd = "password"
-
-    conn = connect(create_connection_string(
-        db_host, db_name, db_user, db_passwd))
-    return conn
+    if database_url := os.environ.get("DATABASE_URL", default=None):
+        return connect(database_url)
+    else:
+        db_host ="localhost"
+        db_name = "postgres"
+        db_user = "postgres"
+        db_passwd = "password"
+        return connect(create_connection_string(db_host, db_name, db_user,db_passwd))
 
 
 pizza_conn = connect_to_pizza_db()
@@ -208,7 +208,7 @@ def get_future_pizza_events():
         GROUP BY
             events.id
         ORDER BY
-            time DESC;
+            time ASC;
     """
     with pizza_conn:
         with pizza_conn.cursor() as curs:

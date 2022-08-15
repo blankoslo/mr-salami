@@ -27,8 +27,9 @@ function PizzaEvents({ queryKey, query } : PizzaEventProps) {
   return (
     <>
         {
-            data.map((pizzaEvent : IPizzaEvent) => {
+            data.map((pizzaEvent : IPizzaEvent, index: number) => {
                 return <PizzaEvent 
+                    key={index}
                     time={pizzaEvent.time} 
                     place={pizzaEvent.place} 
                     attendees={pizzaEvent.attendees} 
@@ -48,7 +49,7 @@ function PizzaEvent({time, place, attendees }: IPizzaEvent) {
         return new Date(parseInt(strings[2]), month.indexOf(strings[1]), parseInt(strings[0]), parseInt(clockstrings[0]), parseInt(clockstrings[1]), parseInt(clockstrings[2]))
     }
     const date = convertToDateObject(time)
-    const dayOfTheWeek = date.toLocaleDateString('en-US', {weekday: 'short'})
+    const dayOfTheWeek = date.toLocaleDateString('en-US', {weekday: 'long'})
     let datestring =  date.toLocaleDateString('no-NO')
     let [day, month, year] = datestring.split(".")  
     let minutes = date.getMinutes().toString()
@@ -63,8 +64,8 @@ function PizzaEvent({time, place, attendees }: IPizzaEvent) {
             <p><b>{date.getHours()}:{minutes}</b></p>
             <p><b>{place}</b></p>
             <ul>
-                {attendees.map(attendee => {
-                    return <li>{attendee}</li>
+                {attendees.map((attendee, index) => {
+                    return <li key={index}>{attendee}</li>
                 })}
             </ul>
         </>
