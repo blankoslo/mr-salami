@@ -6,6 +6,12 @@ export interface IPizzaEvent {
     attendees: string[],
 }
 
+export interface Restaurant {
+    name: string,
+    location: string,
+    phonenumber: string,
+}
+
 export interface PizzaEventProps {
     queryKey: string[],
     query: () => Promise<any>,

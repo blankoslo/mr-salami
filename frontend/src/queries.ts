@@ -68,5 +68,10 @@ export const postNewPizzaEvent = async (data : INewPizzaEvent) => {
         },
         body: JSON.stringify(data)
         });
-    console.log("res:", res);
 }
+
+export const fetchAllRestaurants = async () => {
+    const res = await fetch(`http://localhost:8080/api/restaurants`);
+    return res.json();
+  }
+  
