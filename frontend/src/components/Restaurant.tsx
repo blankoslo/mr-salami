@@ -12,7 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postNewRestaurant } from 'queries';
+import { editRestaurant } from 'queries';
 import { INewRestaurant } from 'types';
 
 function Restaurant({ id, name, phone_number, address } : IRestaurant) {
@@ -48,7 +48,7 @@ function EditDialog({ open, handleClose, data } : EditDialogProps ) {
 
     const queryClient = useQueryClient();
 
-    const mutation = useMutation(postNewRestaurant, {
+    const mutation = useMutation(editRestaurant, {
         onSuccess: () => {
             queryClient.invalidateQueries(['restaurants']);
         }
@@ -73,7 +73,7 @@ function EditDialog({ open, handleClose, data } : EditDialogProps ) {
     const handleRestaurantSubmit = (e: any) => {
         // e.preventDefault();
 
-        const newRestaurantData: INewRestaurant = {
+        const updatedRestaurantData: INewRestaurant = {
             restaurant: {
                 name: pizzaPlace,
                 address: address,
@@ -81,7 +81,7 @@ function EditDialog({ open, handleClose, data } : EditDialogProps ) {
             }
         }
 
-        mutation.mutate(newRestaurantData);
+        mutation.mutate({ id: data.id, data: updatedRestaurantData });
     }
 
     return (
