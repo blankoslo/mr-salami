@@ -224,3 +224,21 @@ def create_new_pizza_event(time, place):
     with pizza_conn:
         with pizza_conn.cursor() as curs:
             curs.execute(sql, (time, place))    
+
+def get_restaurants():
+    sql = """
+        SELECT id, name, address, phone_number FROM restaurants;
+    """
+    with pizza_conn:
+        with pizza_conn.cursor() as curs:
+            curs.execute(sql)
+            return curs.fetchall()
+
+def create_restaurant(restaurant):
+    sql = """
+        INSERT INTO restaurants(id, name, address, phone_number)
+        VALUES (DEFAULT, %s, %s, %s)
+    """
+    with pizza_conn:
+        with pizza_conn.cursor() as curs:
+            curs.execute(sql, list(restaurant.values())) 
