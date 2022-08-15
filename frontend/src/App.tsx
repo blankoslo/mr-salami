@@ -15,6 +15,7 @@ import theme from 'theme';
 import HomePage from 'pages/Home';
 import NewEventPage from 'pages/NewEventPage';
 import { Fragment } from 'react';
+import RestaurantsPage from 'pages/RestaurantsPage';
 
 const queryClient = new QueryClient()
 
@@ -43,6 +44,7 @@ function App() {
               </ProtectedRoute>
               } />
               <Route path="/login" element={<Login />} />
+              <Route path="/restaurants" element={<RestaurantsPage />} />
             </Routes>
         </Router>
 
