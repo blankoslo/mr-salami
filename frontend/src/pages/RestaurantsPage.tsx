@@ -3,11 +3,11 @@ import { Container, Button, Grid, TextField, CircularProgress, Snackbar, Alert, 
 
 import { Link } from 'react-router-dom';
 
-import { fetchUpcomingPizzaEvents, postNewRestaurant } from 'queries';
+import { fetchAllRestaurants, postNewRestaurant } from 'queries';
 import { useMutation } from '@tanstack/react-query';
 
 import { IRestaurant, CustomSnackbarProps } from 'types';
-import PizzaEvents from 'components/PizzaEvents';
+import Restaurants from 'components/Restaurants';
 
 function RestaurantsPage() {
 
@@ -33,12 +33,14 @@ function RestaurantsPage() {
         e.preventDefault();
 
         const newRestaurantData: IRestaurant = {
-            name: pizzaPlace,
-            address: address,
-            phoneNumber: phoneNumber,
+            restaurant: {
+                name: pizzaPlace,
+                address: address,
+                phoneNumber: phoneNumber,
+            }
         }
 
-        // mutation.mutate(newRestaurantData);
+        mutation.mutate(newRestaurantData);
     }
 
     return (
@@ -120,7 +122,7 @@ function RestaurantsPage() {
                     </Grid>
 
                     <Grid item xs={6}>
-                        <PizzaEvents queryKey={["upcomingEvents"]} query={fetchUpcomingPizzaEvents} />
+                        <Restaurants queryKey={["restaurants"]} query={fetchAllRestaurants} />
                     </Grid>
                 </Grid>
             </Grid>

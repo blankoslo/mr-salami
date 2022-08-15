@@ -7,9 +7,11 @@ export interface IPizzaEvent {
 }
 
 export interface IRestaurant {
-    name: string,
-    address: string,
-    phoneNumber: string,
+    restaurant: {
+        name: string,
+        address: string,
+        phoneNumber: string,
+    }
 }
 
 export interface PizzaEventProps {
