@@ -15,7 +15,7 @@ Husk å source venvet ditt, står det ikke "(venv)" på starten av prompten din 
 
 ```bash
 mr-salami> source venv/bin/activate
-(venv) mr-salami> gunicorn web_api:app -b :8080
+(venv) mr-salami> source env.sh && gunicorn web_api:app -b :8080
 ```
 
 Kjøre frontend
@@ -55,3 +55,10 @@ Oppdater databaseskjemaene med våre endringer
 ```
 psql -h localhost -U postgres --password < db/migration1.sql
 ```
+
+## Environemnt variabler
+Vi trenger noen miljøvariabler for å kjøre applikasjonen:
+* ADMIN_USERNAME - admin-brukernavnet for innlogging
+* ADMIN_PASS - admin-passordet for innlogging
+* DATABASE_URL - url til databasen, men den bruker vi kun i prod. Den trenger ikke å settes. 
+
