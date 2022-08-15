@@ -3,39 +3,41 @@ import { Container, Button, Grid, TextField, CircularProgress, Snackbar, Alert, 
 
 import { Link } from 'react-router-dom';
 
-import { postNewPizzaEvent } from 'queries';
+import { postNewRestaurant } from 'queries';
 import { useMutation } from '@tanstack/react-query';
 
-import CustomDatePicker from "components/CustomDatePicker";
-import { INewPizzaEvent, CustomSnackbarProps } from 'types';
+import { IRestaurant, CustomSnackbarProps } from 'types';
 
 function RestaurantsPage() {
 
-    const mutation = useMutation(postNewPizzaEvent)
+    const mutation = useMutation(postNewRestaurant)
 
     const [pizzaPlace, setPizzaPlace] = useState("");
-    const [dateTime, setDateTime] = useState<Date | null>(new Date());
+    const [address, setAddress] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
 
     const handlePizzaPlaceChange = (e: any) => {
         setPizzaPlace(e.target.value);
     }
 
-    const handleEventSubmit = (e: any) => {
+    const handleAddressChange = (e: any) => {
+        setAddress(e.target.value);
+    }
+
+    const handlePhoneNumberChange = (e: any) => {
+        setPhoneNumber(e.target.value);
+    }
+
+    const handleRestaurantSubmit = (e: any) => {
         e.preventDefault();
 
-        if (dateTime == null) {
-            // TODO: Show error, since date cannot be null
-            return;
+        const newRestaurantData: IRestaurant = {
+            name: pizzaPlace,
+            address: address,
+            phoneNumber: phoneNumber,
         }
 
-        const newEventData: INewPizzaEvent = {
-            "event": {
-                "time": dateTime.toString(),
-                "place": pizzaPlace
-            }
-        }
-
-        mutation.mutate(newEventData);
+        // mutation.mutate(newRestaurantData);
     }
 
     return (
@@ -44,7 +46,7 @@ function RestaurantsPage() {
                 mutation.isError ? (
                     <CustomSnackbar
                         alertType='error'
-                        alertMessage='Could not add new pizza event.'
+                        alertMessage='Could not add new restaurant.'
                         duration={6000}
                         />
                         ) : null
@@ -54,47 +56,66 @@ function RestaurantsPage() {
                 mutation.isSuccess ? (
                     <CustomSnackbar 
                         alertType='success'
-                        alertMessage='Successfully added new pizza event!'
+                        alertMessage='Successfully added new restaurant!'
                         duration={6000}
                     />
                 ) : null
             }
 
-            <Typography variant="h3" component="h3">Restaurants</Typography>
-            
-            <form>
-            <Grid container direction="column" spacing={3}>
+            <Grid container spacing={6}>
+
                 <Grid item>
-                    <TextField 
-                        required
-                        id="place"
-                        label="Place"
-                        value={pizzaPlace}
-                        onChange={handlePizzaPlaceChange}
-                        />
+                    <Typography variant="h3" component="h3">Restaurants</Typography>
                 </Grid>
-                <Grid item>
-                    <CustomDatePicker onValueChanged={setDateTime}/>
-                </Grid>
-                <Grid container item direction="row" spacing={3}>
+
+                <Grid item container direction="column" spacing={3}>
                     <Grid item>
-                        {
-                            mutation.isLoading
-                            ? <CircularProgress />
-                            : <Button 
-                                disabled={pizzaPlace === ''}
-                                variant="contained"
-                                onClick={handleEventSubmit}>
-                                    Add
-                                </Button>
-                        }
+                        <Typography variant="h6" component="h6">Add new restaurant</Typography>
                     </Grid>
                     <Grid item>
-                        <Button component={Link} to="/" variant="text">Cancel</Button>
+                        <TextField 
+                            required
+                            id="place"
+                            label="Name"
+                            value={pizzaPlace}
+                            onChange={handlePizzaPlaceChange}
+                            />
+                    </Grid>
+                    <Grid item>
+                        <TextField 
+                            id="address"
+                            label="Address"
+                            value={address}
+                            onChange={handleAddressChange}
+                            />
+                    </Grid>
+                    <Grid item>
+                        <TextField 
+                            id="phoneNumber"
+                            label="Phone number"
+                            value={phoneNumber}
+                            onChange={handlePhoneNumberChange}
+                            />
+                    </Grid>
+                    <Grid container item direction="row" spacing={3}>
+                        <Grid item>
+                            {
+                                mutation.isLoading
+                                ? <CircularProgress />
+                                : <Button 
+                                    disabled={pizzaPlace === ''}
+                                    variant="contained"
+                                    onClick={handleRestaurantSubmit}>
+                                        Add
+                                    </Button>
+                            }
+                        </Grid>
+                        <Grid item>
+                            <Button component={Link} to="/" variant="text">Cancel</Button>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-            </form>
         </Container>
     )
 }
