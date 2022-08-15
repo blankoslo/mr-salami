@@ -4,13 +4,43 @@ const PROD = "https://oppstart22-gruppe2-pizzabot.herokuapp.com"
 const DEV = "http://localhost:8080"
 const URL = DEV
 
+type UsernamePassword = {
+  username: string | null ,
+  password: string | null
+}
+
+const getUsernamePassword = () => {
+  return {
+    username: localStorage.getItem("username"),
+    password: localStorage.getItem("password")
+  }
+}
+
+const getAuthHeader = ({username, password}:UsernamePassword) => {
+  return `Basic ${btoa(`${username}:${password}`)}`
+}
+
+
 export const fetchAllPizzaEvents = async () => {
-  const res = await fetch(`${URL}/api/events`);
+  const res = await fetch(`${URL}/api/events`,{
+    headers: {
+      "Authorization": getAuthHeader(getUsernamePassword())
+    }
+  }
+  );
   return res.json();
 }
 
 export const fetchUpcomingPizzaEvents = async () => {
-  const res = await fetch(`${URL}/api/future_events`);
+  const res = await fetch(`${URL}/api/future_events`,
+  {
+    headers: {
+      "Authorization": getAuthHeader(getUsernamePassword())
+    }
+  });
+  if (res.status === 401) {
+    throw new Error('401')
+  }
   return res.json();
 }
 
@@ -19,7 +49,8 @@ export const postNewPizzaEvent = async (data : INewPizzaEvent) => {
         method: 'POST',
         headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Authorization": getAuthHeader(getUsernamePassword())
         },
         body: JSON.stringify(data)
         });
