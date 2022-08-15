@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Container, Button, Grid, TextField, Typography, CircularProgress, Snackbar, Alert } from "@mui/material";
+import { Container, Button, Grid, TextField, CircularProgress, Snackbar, Alert } from "@mui/material";
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { postNewPizzaEvent } from 'queries';
 import { useMutation } from '@tanstack/react-query';
@@ -15,7 +15,6 @@ function NewEventPage() {
 
     const [pizzaPlace, setPizzaPlace] = useState("");
     const [dateTime, setDateTime] = useState<Date | null>(new Date());
-    const navigate = useNavigate();
 
     const handlePizzaPlaceChange = (e: any) => {
         setPizzaPlace(e.target.value);
@@ -49,7 +48,7 @@ function NewEventPage() {
                         duration={6000}
                         />
                         ) : null
-                    }
+            }
 
             { 
                 mutation.isSuccess ? (
@@ -61,7 +60,7 @@ function NewEventPage() {
                 ) : null
             }
 
-            <Typography variant="h3" component="h3">Add new event</Typography>
+            <h1>Add new event</h1>
             <form>
             <Grid container direction="column" spacing={3}>
                 <Grid item>

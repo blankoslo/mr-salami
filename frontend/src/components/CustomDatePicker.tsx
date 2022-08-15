@@ -19,7 +19,7 @@ function CustomDatePicker({ onValueChanged } : CustomDatePickerProps) {
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DateTimePicker
-            label="Date and Time picker"
+            label="Date and time"
             value={value}
             onChange={handleChange}
             renderInput={(params) => <TextField {...params} />}
