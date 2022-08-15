@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { IRestaurant, PizzaEventProps } from 'types';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+
+import Restaurant from 'components/Restaurant';
 
 function Restaurants({ queryKey, query } : PizzaEventProps) {
   const { isLoading, error, data } = useQuery(
@@ -39,16 +41,6 @@ function Restaurants({ queryKey, query } : PizzaEventProps) {
         }
       </>
   )
-}
-
-function Restaurant({ name, phone_number, address } : IRestaurant) {
-    return (
-        <Box sx={{ mb: 3 }}>
-            <Typography variant="h6" component="p">{name}</Typography>
-            <Typography variant="body2" component="p">{address}</Typography>
-            <Typography variant="body2" component="p">{phone_number}</Typography>
-        </Box>
-    )
 }
 
 export default Restaurants;
