@@ -43,3 +43,7 @@ Filen ligger på [drive](https://drive.google.com/file/d/1Z0xOdDjZLqWo47UxYHsHqd
 ```
 psql -h localhost -U postgres --password < pizzabot_dump.sql
 ```
+Oppdater databaseskjemaene med våre endringer
+```
+psql -h localhost -U postgres --password < db/migration1.sql
+```
