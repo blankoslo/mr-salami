@@ -64,8 +64,17 @@ def raw_events_to_list_of_dict(raw_events):
 @cross_origin()
 def restaurants():
     if request.method == 'GET':
-        restaurants = db.get_restaurants()
+        raw_restaurants = db.get_restaurants()
+        restaurants = []
+        for restaurant in raw_restaurants:
+            restaurants.append({
+                "id": restaurant[0],
+                "name": restaurant[1],
+                "address": restaurant[2],
+                "phone_number": restaurant[3]
+            })
         return restaurants
+        
     else:
         restaurant = request.json['restaurant']
         db.create_restaurant(restaurant)
