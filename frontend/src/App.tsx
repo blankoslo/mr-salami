@@ -35,7 +35,13 @@ function App() {
 
         <Router>
             <Routes>
-              <Route path="/new-event" element={<NewEventPage />} />
+              <Route 
+              path="/new-event"
+              element={
+              <ProtectedRoute>
+                <NewEventPage />
+              </ProtectedRoute>
+              } />
               <Route 
               path="/"
               element={
@@ -43,8 +49,18 @@ function App() {
                 <HomePage />
               </ProtectedRoute>
               } />
-              <Route path="/login" element={<Login />} />
-              <Route path="/restaurants" element={<RestaurantsPage />} />
+              <Route 
+              path="/login" 
+              element={
+                <Login />
+              } />
+              <Route 
+              path="/restaurants"
+              element={
+                <ProtectedRoute>
+                  <RestaurantsPage />
+                </ProtectedRoute>
+              } />
             </Routes>
         </Router>
 
