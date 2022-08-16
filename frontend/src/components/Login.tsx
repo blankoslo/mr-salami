@@ -31,15 +31,6 @@ export default function Login() {
         onSuccess: handleSucessLogin,
     })
 
-  // Submit using enter button
-  // Simplest way i found but i feel like this should be default?
-  const handleKeypress = (e:any) => {
-          if (e.keyCode === 13) {
-                  handleEventSubmit(e);
-            } 
-        };
-
-
     return (
         <Container>
             { 
@@ -52,7 +43,7 @@ export default function Login() {
                         ) : null
             }
         <h1>Log in</h1>
-        <form>
+        <form onSubmit={handleEventSubmit}>
             <Grid container direction="column" spacing={3}>
                 <Grid item>
                     <TextField 
@@ -77,8 +68,7 @@ export default function Login() {
                         <Button 
                         type="submit" 
                         variant="text"
-                        onClick={handleEventSubmit}
-                        onKeyPress={handleKeypress}>
+                        >
                             Log In
                         </Button>
                     </Grid>
