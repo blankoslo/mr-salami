@@ -3,7 +3,7 @@ import { Container, Button, Grid, TextField } from "@mui/material";
 import { Link, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { login } from 'queries';
-import { CustomSnackbar } from 'pages/NewEventPage';
+import CustomSnackbar from 'components/CustomSnackbar';
 
 export default function Login() {
     const [username, setUsername] = useState("");

@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+import CustomSnackbar from 'components/CustomSnackbar';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 
@@ -54,9 +54,9 @@ function EditDialog({ open, handleClose, data } : EditDialogProps ) {
         }
     });
 
-    const [pizzaPlace, setPizzaPlace] = useState("");
-    const [address, setAddress] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [pizzaPlace, setPizzaPlace] = useState(data.name);
+    const [address, setAddress] = useState(data.address);
+    const [phoneNumber, setPhoneNumber] = useState(data.phone_number);
 
     const handlePizzaPlaceChange = (e: any) => {
         setPizzaPlace(e.target.value);
@@ -77,11 +77,32 @@ function EditDialog({ open, handleClose, data } : EditDialogProps ) {
             restaurant: {
                 name: pizzaPlace,
                 address: address,
-                phoneNumber: phoneNumber,
+                phone_number: phoneNumber,
             }
         }
 
         mutation.mutate({ id: data.id, data: updatedRestaurantData });
+        handleClose();
+    }
+
+    if (mutation.isError) {
+        return (
+            <CustomSnackbar
+                alertType='error'
+                alertMessage='Could not edit restaurant.'
+                duration={6000}
+            />
+        )
+    }
+    
+    if (mutation.isSuccess) {
+        return (
+            <CustomSnackbar 
+                alertType='success'
+                alertMessage='Successfully updated the restaurant!'
+                duration={6000}
+            />
+        )
     }
 
     return (
@@ -95,7 +116,7 @@ function EditDialog({ open, handleClose, data } : EditDialogProps ) {
                             id="name"
                             label="Name"
                             fullWidth
-                            value={data.name}
+                            value={pizzaPlace}
                             onChange={handlePizzaPlaceChange}
                             />
                     </Grid>
@@ -104,7 +125,7 @@ function EditDialog({ open, handleClose, data } : EditDialogProps ) {
                             id="address"
                             label="Address"
                             fullWidth
-                            value={data.address}
+                            value={address}
                             onChange={handleAddressChange}
                             />
                     </Grid>
@@ -113,7 +134,7 @@ function EditDialog({ open, handleClose, data } : EditDialogProps ) {
                             id="phone"
                             label="Phone number"
                             fullWidth
-                            value={data.phone_number}
+                            value={phoneNumber}
                             onChange={handlePhoneNumberChange}
                         />
 

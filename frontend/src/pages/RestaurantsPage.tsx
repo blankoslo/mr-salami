@@ -42,7 +42,7 @@ function RestaurantsPage() {
             restaurant: {
                 name: pizzaPlace,
                 address: address,
-                phoneNumber: phoneNumber,
+                phone_number: phoneNumber,
             }
         }
 

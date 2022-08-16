@@ -10,7 +10,7 @@ export interface INewRestaurant {
     restaurant: {
         name: string,
         address: string,
-        phoneNumber: string,
+        phone_number: string,
     }
 }
 
