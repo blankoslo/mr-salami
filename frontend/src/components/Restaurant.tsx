@@ -12,10 +12,18 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { editRestaurant } from 'queries';
+import { deleteRestaurant, editRestaurant } from 'queries';
 import { INewRestaurant } from 'types';
 
 function Restaurant({ id, name, phone_number, address } : IRestaurant) {
+
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation(deleteRestaurant, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['restaurants']);
+        }
+    });
 
     const [open, setOpen] = useState(false);
 
@@ -26,7 +34,11 @@ function Restaurant({ id, name, phone_number, address } : IRestaurant) {
     const handleClose = () => {
         setOpen(false);
     }
-    
+
+    const handleDelete = () => {
+        mutation.mutate(id);
+    }
+
     return (
         <Box sx={{ mb: 3 }}>
             <Typography variant="h6" component="span">{name}</Typography>
@@ -34,6 +46,7 @@ function Restaurant({ id, name, phone_number, address } : IRestaurant) {
             <Typography variant="body2" component="p">{address}</Typography>
             <Typography variant="body2" component="p">{phone_number}</Typography>
             <EditDialog open={open} handleClose={handleClose} data={{ id, name, address, phone_number }} />
+            <Button variant="outlined" color="error" size='small' onClick={handleDelete}>Delete</Button>
         </Box>
     )
 }
