@@ -71,7 +71,11 @@ export const postNewPizzaEvent = async (data : INewPizzaEvent) => {
 }
 
 export const fetchAllRestaurants = async () => {
-    const res = await fetch(`${URL}/api/restaurants`);
+    const res = await fetch(`${URL}/api/restaurants`, {
+        headers: {
+            "Authorization": getAuthHeader(getUsernamePassword())
+          }
+    });
     return res.json();
 }
 
@@ -80,7 +84,8 @@ export const postNewRestaurant = async (data : INewRestaurant) => {
         method: 'POST',
         headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Authorization": getAuthHeader(getUsernamePassword())
         },
         body: JSON.stringify(data)
         });
@@ -96,7 +101,8 @@ export const editRestaurant = async ({ id, data } : EditRestaurantProps) => {
         method: 'PUT',
         headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        "Authorization": getAuthHeader(getUsernamePassword())
         },
         body: JSON.stringify(data)
         });

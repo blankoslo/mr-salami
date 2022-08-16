@@ -7,8 +7,10 @@ import { fetchUpcomingPizzaEvents, postNewPizzaEvent } from 'queries';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import CustomDatePicker from "components/CustomDatePicker";
-import { INewPizzaEvent, CustomSnackbarProps } from 'types';
+import { INewPizzaEvent } from 'types';
 import PizzaEvents from 'components/PizzaEvents';
+import CustomSnackbar from 'components/CustomSnackbar';
+
 
 function NewEventPage() {
 
@@ -107,22 +109,6 @@ function NewEventPage() {
                 </Grid>
             </Grid>
         </Container>
-    )
-}
-
-export function CustomSnackbar({ alertType, alertMessage, duration } : CustomSnackbarProps ) {
-    const [open, setOpen] = useState(true);
-
-    const handleClose = () => {
-        setOpen(false);
-    }
-
-    return (
-        <Snackbar open={open} autoHideDuration={duration} onClose={handleClose}>
-            <Alert onClose={handleClose} severity={alertType} sx={{ width: '100%' }}>
-                {alertMessage}
-            </Alert>
-        </Snackbar>
     )
 }
 
