@@ -110,7 +110,7 @@ function NewEventPage() {
     )
 }
 
-function CustomSnackbar({ alertType, alertMessage, duration } : CustomSnackbarProps ) {
+export function CustomSnackbar({ alertType, alertMessage, duration } : CustomSnackbarProps ) {
     const [open, setOpen] = useState(true);
 
     const handleClose = () => {
