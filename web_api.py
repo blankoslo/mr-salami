@@ -104,6 +104,12 @@ def edit_restaurants(id):
         db.edit_restaurant(str(id), restaurant)
     return ""
 
+@app.route("/api/login", methods=['GET'])
+@auth.login_required
+def login():
+    return "Ok"
+
+
 
 def button_rsvp(user_id, rsvp, original_message, response_url):
     if user_id in api.get_invited_users():

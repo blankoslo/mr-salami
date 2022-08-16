@@ -20,6 +20,20 @@ const getAuthHeader = ({username, password}:UsernamePassword) => {
   return `Basic ${btoa(`${username}:${password}`)}`
 }
 
+export const login = async (data:UsernamePassword) => {
+  const res = await fetch(`${URL}/api/login`, {
+    headers: {
+      "Authorization": getAuthHeader(data)
+    }
+  })
+  // Errors have to be thrown manually when using fetch. 
+  // See react-query documentation on error handling
+  if (res.status === 401) { 
+    throw new Error('401')
+  }
+  return res.text
+}
+
 
 export const fetchAllPizzaEvents = async () => {
   const res = await fetch(`${URL}/api/events`,{
