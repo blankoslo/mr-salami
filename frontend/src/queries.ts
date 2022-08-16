@@ -1,4 +1,4 @@
-import { INewPizzaEvent, INewRestaurant, IRestaurant } from "types";
+import { INewPizzaEvent, INewRestaurant, EditRestaurantProps } from "types";
 
 const PROD = "https://oppstart22-gruppe2-pizzabot.herokuapp.com"
 const DEV = "http://localhost:8080"
@@ -91,11 +91,6 @@ export const postNewRestaurant = async (data : INewRestaurant) => {
         });
 }
 
-interface EditRestaurantProps {
-    id: string,
-    data: INewRestaurant,
-}
-
 export const editRestaurant = async ({ id, data } : EditRestaurantProps) => {
     const res = await fetch(`${URL}/api/restaurants/${id}`, {
         method: 'PUT',
@@ -107,3 +102,12 @@ export const editRestaurant = async ({ id, data } : EditRestaurantProps) => {
         body: JSON.stringify(data)
         });
 }
+export const deleteRestaurant = async (id : string) => {
+    const res = await fetch(`${URL}/api/restaurants/${id}`, {
+        method: 'DELETE',
+        headers: {
+        "Authorization": getAuthHeader(getUsernamePassword())
+        },
+        });
+}
+

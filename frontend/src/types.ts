@@ -21,6 +21,11 @@ export interface IRestaurant {
     phone_number: string,
 }
 
+export interface EditRestaurantProps {
+    id: string,
+    data: INewRestaurant,
+}
+
 export interface PizzaEventProps {
     queryKey: string[],
     query: () => Promise<any>,
