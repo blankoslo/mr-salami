@@ -15,6 +15,7 @@ import theme from 'theme';
 import HomePage from 'pages/Home';
 import NewEventPage from 'pages/NewEventPage';
 import { Fragment } from 'react';
+import WeekPicker from 'components/WeekPicker';
 
 const queryClient = new QueryClient()
 
@@ -43,6 +44,7 @@ function App() {
               </ProtectedRoute>
               } />
               <Route path="/login" element={<Login />} />
+              <Route path="/weekpicker" element={<WeekPicker/>}/>
             </Routes>
         </Router>
 
