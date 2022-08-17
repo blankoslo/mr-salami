@@ -26,6 +26,7 @@ const names = [
   "Thursday",
   "Friday",
   "Saturday",
+  "Sunday"
 ];
 
 function getStyles(name: string, personName: readonly string[], theme: Theme) {
