@@ -45,10 +45,10 @@ def events():
         events = [{"time": a[0], "place":a[1], "attendees":a[2].split(', ')} for a in raw_events]
         return events
     else:
-        event = request.json['event']
-        db.create_new_pizza_event(convert_datetime_object_to_timestamp(event['time']), event["place"])
-        return '', 201
-
+        if events := request.json.get('events',None):
+            db.create_new_pizza_events([(convert_datetime_object_to_timestamp(event['time']), event["place"]) for event in events])
+            return '', 201
+    return '', 400
 
 def convert_datetime_object_to_timestamp(date):
     months={"Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04", "May": "05", "Jun": "06", "Jul": "07", "Aug": "08", "Sep": "09", "Oct": "10", "Nov": "11", "Dec": "12"}
@@ -93,6 +93,7 @@ def restaurants():
         restaurant = request.json['restaurant']
         db.create_restaurant(restaurant)
         return '', 201
+
 
 @app.route("/api/restaurants/<id>", methods=['PUT', 'DELETE'])
 @auth.login_required

@@ -1,49 +1,51 @@
 import { AlertColor } from "@mui/material";
 
 export interface IPizzaEvent {
-    time: string,
-    place: string,
-    attendees: string[],
+  time: string;
+  place: string;
+  attendees: string[];
 }
 
 export interface INewRestaurant {
-    restaurant: {
-        name: string,
-        address: string,
-        phone_number: string,
-    }
+  restaurant: {
+    name: string;
+    address: string;
+    phone_number: string;
+  };
 }
 
 export interface IRestaurant {
-    id: string,
-    name: string,
-    address: string,
-    phone_number: string,
+  id: string;
+  name: string;
+  address: string;
+  phone_number: string;
 }
 
 export interface EditRestaurantProps {
-    id: string,
-    data: INewRestaurant,
+  id: string;
+  data: INewRestaurant;
 }
 
 export interface PizzaEventProps {
-    queryKey: string[],
-    query: () => Promise<any>,
+  queryKey: string[];
+  query: () => Promise<any>;
 }
 
 export interface CustomDatePickerProps {
-    onValueChanged: React.Dispatch<React.SetStateAction<Date | null>>,
+  onValueChanged: React.Dispatch<React.SetStateAction<Date | null>>;
 }
 
 export interface INewPizzaEvent {
-    event: {
-        time: string,
-        place: string,
+  events: [
+    {
+      time: string;
+      place: string;
     }
+  ];
 }
 
 export interface CustomSnackbarProps {
-    alertType: AlertColor | undefined,
-    alertMessage: string,
-    duration: number,
+  alertType: AlertColor | undefined;
+  alertMessage: string;
+  duration: number;
 }
