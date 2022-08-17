@@ -1,4 +1,5 @@
 from psycopg2 import connect
+from typing import List
 import math
 import os
 
@@ -224,6 +225,16 @@ def create_new_pizza_event(time, place):
     with pizza_conn:
         with pizza_conn.cursor() as curs:
             curs.execute(sql, (time, place))    
+
+def create_new_pizza_events(pizzaevents: List[tuple[str,str]]) -> None:
+    sql = """
+        INSERT INTO events (time, place)
+        VALUES (%s, %s)
+    """
+
+    with pizza_conn:
+        with pizza_conn.cursor() as curs:
+            curs.executemany(sql, pizzaevents)    
 
 def get_restaurants():
     sql = """
