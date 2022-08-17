@@ -1,18 +1,26 @@
 import { useState } from 'react'
-import { Container, Button, Grid, TextField, CircularProgress, Snackbar, Alert } from "@mui/material";
-
+import { Container, Button, Grid, TextField, CircularProgress, Select, MenuItem, Card, CardContent, Box, Typography } from "@mui/material";
+import { SelectChangeEvent } from '@mui/material/Select'
+import { GroupOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-
-import { fetchUpcomingPizzaEvents, postNewPizzaEvent } from 'queries';
+import { postNewPizzaEvent } from 'queries';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
-import CustomDatePicker from "components/CustomDatePicker";
-import { INewPizzaEvent } from 'types';
-import PizzaEvents from 'components/PizzaEvents';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { INewPizzaEvent, IRestaurant } from 'types';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import CustomSnackbar from 'components/CustomSnackbar';
+import { DesktopDatePicker, MobileDatePicker, TimePicker } from '@mui/x-date-pickers';
+import { useTheme } from '@mui/material/styles';
 
+interface CreatePizzaEventProps {
+    restaurants: IRestaurant[],
+    setAccordionStateCallback: React.Dispatch<React.SetStateAction<boolean>>
+}
 
-function CreatePizzaEventForm() {
+function CreatePizzaEventForm(props : CreatePizzaEventProps ) {
+
+    const { restaurants, setAccordionStateCallback } = props;
 
     const queryClient = useQueryClient();
 
@@ -23,30 +31,40 @@ function CreatePizzaEventForm() {
         }
     });
 
+    const theme = useTheme();
+    const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
+
     const [pizzaPlace, setPizzaPlace] = useState("");
-    const [dateTime, setDateTime] = useState<Date | null>(new Date());
+    const [date, setDate] = useState(new Date());
 
     const handlePizzaPlaceChange = (e: any) => {
         setPizzaPlace(e.target.value);
     }
 
+    const handleDateChange = (e: any) => {
+        setDate(e.target.value);
+    }
+
     const handleEventSubmit = (e: any) => {
         e.preventDefault();
 
-        if (dateTime == null) {
+        if (date == null) {
             // TODO: Show error, since date cannot be null
             return;
         }
 
         const newEventData: INewPizzaEvent = {
             "event": {
-                "time": dateTime.toString(),
+                "time": date.toString(),
                 "place": pizzaPlace
             }
         }
 
         mutation.mutate(newEventData);
+        setAccordionStateCallback(false);
     }
+
+    console.log(restaurants ? restaurants : "Could not get rstaurants");
 
     return (
         <Container>
@@ -71,33 +89,93 @@ function CreatePizzaEventForm() {
             }
                 <Grid container direction="column" spacing={3}>
                     <Grid item xs={12}>
-                        <TextField 
-                            fullWidth
-                            required
-                            id="place"
-                            label="Place"
-                            value={pizzaPlace}
-                            onChange={handlePizzaPlaceChange}
-                            />
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            {
+                                isDesktop ?
+                                (
+                                    <DesktopDatePicker
+                                        disablePast
+                                        label="Date"
+                                        inputFormat="MM/dd/yyyy"
+                                        value={date}
+                                        onChange={handleDateChange}
+                                        renderInput={(params) => <TextField {...params} fullWidth />}
+                                    />
+                                )
+                                :
+                                (
+                                    <MobileDatePicker
+                                        disablePast
+                                        label="Date"
+                                        inputFormat="MM/dd/yyyy"
+                                        value={date}
+                                        onChange={handleDateChange}
+                                        renderInput={(params) => <TextField {...params} fullWidth />}
+                                    />
+                                )
+                            }
+
+                        </LocalizationProvider>
                     </Grid>
                     <Grid item xs={12}>
-                        <CustomDatePicker onValueChanged={setDateTime}/>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <TimePicker
+                                label="Time"
+                                ampm={false}
+                                value={date}
+                                onChange={handleDateChange}
+                                renderInput={(params) => <TextField {...params} fullWidth />}
+                            />
+                        </LocalizationProvider>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            value={pizzaPlace}
+                            onChange={handlePizzaPlaceChange}
+                            select // tell TextField to render select
+                            label="Restaurant"
+                            fullWidth
+                        >
+                            {
+                                restaurants ?
+                                restaurants.map((restaurant: IRestaurant) => {
+                                    return <MenuItem key={restaurant.id} value={restaurant.name}>{restaurant.name}</MenuItem>
+                                })
+                                : <MenuItem>Could not get restaurants</MenuItem>
+                            }
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Card variant="outlined" sx={{backgroundColor: "primary.light"}}>
+                            <CardContent>
+                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start"}}>
+                                    <GroupOutlined sx={{ mr: 1 }}/>
+                                    <Typography variant="body2" color="primary" fontWeight="bold">
+                                        5 guests
+                                    </Typography>
+                                </Box>
+                                <Typography variant="subtitle1">
+                                    Pizzabot chooses who to invite so you don't have to.
+                                </Typography>
+                            </CardContent>
+                        </Card>
                     </Grid>
                     <Grid container item direction="row" spacing={3}>
-                        <Grid item xs={6}>
+                        <Grid item xs={7}>
                             {
                                 mutation.isLoading
                                 ? <CircularProgress />
                                 : <Button 
+                                    fullWidth
                                     disabled={pizzaPlace === ''}
                                     variant="contained"
                                     onClick={handleEventSubmit}>
-                                        Add
+                                        Save
                                     </Button>
                             }
                         </Grid>
-                        <Grid item xs={6}>
-                            <Button component={Link} to="/" variant="text">Cancel</Button>
+                        <Grid item xs={5}>
+                            <Button onClick={() => setAccordionStateCallback(false)} fullWidth variant="text">Cancel</Button>
                         </Grid>
                     </Grid>
                 </Grid>
