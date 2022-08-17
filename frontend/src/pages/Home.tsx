@@ -1,20 +1,11 @@
 import { Button, Grid, Typography } from '@mui/material';
 import { Container } from '@mui/system';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import PizzaEvents from 'components/PizzaEvents';
 import { fetchAllPizzaEvents, fetchUpcomingPizzaEvents } from 'queries';
 
 function HomePage() {
-
-  const navigate = useNavigate()
-
-  const handleLogOut = (e: any) =>{
-    e.preventDefault();
-    localStorage.clear()
-    navigate("/login")
-    
-  }
   return (
     <Container>
         <Grid container spacing={6}>
@@ -28,9 +19,6 @@ function HomePage() {
                     </Grid>
                     <Grid item>
                         <Button component={Link} to='/restaurants' variant="outlined" >Restaurants</Button>
-                    </Grid>
-                    <Grid item>
-                        <Button variant="contained" onClick={handleLogOut}> Log out</Button>
                     </Grid>
                 </Grid>
             </Grid>
