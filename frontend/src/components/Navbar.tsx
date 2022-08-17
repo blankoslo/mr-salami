@@ -1,5 +1,5 @@
 import { useState, KeyboardEvent, MouseEvent } from "react";
-import { Container, Box, Drawer, List, ListItem, ListItemButton, ListItemText, IconButton, Grid, Typography, Divider } from "@mui/material"
+import { Container, AppBar, Drawer, List, ListItem, ListItemButton, ListItemText, IconButton, Grid, Typography, Divider } from "@mui/material"
 import { Menu } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom"
 import { useTheme } from '@mui/material/styles';
@@ -28,7 +28,7 @@ function Navbar() {
     }
 
     return (
-        <Box sx={{backgroundColor: "gray"}}>
+        <AppBar position="static">
             <Container>
             {
                 isDesktop ? 
@@ -37,7 +37,7 @@ function Navbar() {
                     <Grid container alignItems="center" justifyContent="flex-start">
                         <Grid item>
                             <IconButton size="large" color="primary" onClick={toggleDrawer(true)}>
-                                <Menu fontSize="large" />
+                                <Menu color="secondary" fontSize="large" />
                             </IconButton>
                         </Grid>
                         <Grid item>
@@ -54,8 +54,8 @@ function Navbar() {
                             <Typography variant="h5">Pizza</Typography>
                         </Grid>
                         <Grid item>
-                            <IconButton color="primary" onClick={toggleDrawer(true)}>
-                                <Menu fontSize="large"/>
+                            <IconButton onClick={toggleDrawer(true)}>
+                                <Menu color="secondary" fontSize="large"/>
                             </IconButton>
                         </Grid>
                     </Grid>
@@ -64,7 +64,7 @@ function Navbar() {
             }
             </Container>
             <NavbarDrawer anchor={isDesktop ? "left" : "right"} drawerOpen={drawerOpen} toggleDrawer={toggleDrawer}/>
-        </Box>
+        </AppBar>
     )
 }
 
