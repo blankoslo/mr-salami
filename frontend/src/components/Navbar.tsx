@@ -28,7 +28,7 @@ function Navbar() {
     }
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{ mb: 4 }}>
             <Container>
             {
                 isDesktop ? 
