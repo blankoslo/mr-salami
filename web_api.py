@@ -45,10 +45,7 @@ def events():
         events = [{"time": a[0], "place":a[1], "attendees":a[2].split(', ')} for a in raw_events]
         return events
     else:
-        if event := request.json.get('event', None):
-            db.create_new_pizza_event(convert_datetime_object_to_timestamp(event['time']), event["place"])
-            return '', 201
-        elif events := request.json.get('events',None):
+        if events := request.json.get('events',None):
             db.create_new_pizza_events([(convert_datetime_object_to_timestamp(event['time']), event["place"]) for event in events])
             return '', 201
     return '', 400
