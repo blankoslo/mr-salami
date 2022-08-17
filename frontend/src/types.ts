@@ -36,12 +36,12 @@ export interface CustomDatePickerProps {
 }
 
 export interface INewPizzaEvent {
-  events: [
+  events: 
     {
       time: string;
       place: string;
-    }
-  ];
+    }[]
+  ;
 }
 
 export interface CustomSnackbarProps {
