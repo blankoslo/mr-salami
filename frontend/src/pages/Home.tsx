@@ -1,9 +1,7 @@
 import { Button, Grid, Typography } from '@mui/material';
 import { Container } from '@mui/system';
-import { Link } from 'react-router-dom';
-
-import PizzaEvents from 'components/PizzaEvents';
-import { fetchAllPizzaEvents, fetchUpcomingPizzaEvents } from 'queries';
+import { useQuery } from '@tanstack/react-query';
+import { fetchAllRestaurants } from 'queries';
 
 import CreatePizzaEventAccordion from "components/CreatePizzaEventAccordion";
 import PizzaEventsTabs from 'components/PizzaEventsTabs';
