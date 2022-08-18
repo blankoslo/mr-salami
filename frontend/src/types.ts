@@ -4,6 +4,7 @@ export interface IPizzaEvent {
   time: string;
   place: string;
   attendees: string[];
+  eventType?: "upcoming" | "previous"
 }
 
 export interface INewRestaurant {

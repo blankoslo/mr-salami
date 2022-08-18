@@ -51,7 +51,8 @@ function PizzaEvents({ queryKey, query } : PizzaEventProps) {
                             key={index}
                             time={pizzaEvent.time} 
                             place={pizzaEvent.place} 
-                            attendees={pizzaEvent.attendees} 
+                            attendees={pizzaEvent.attendees}
+                            eventType={queryKey.includes("upcomingPizzaEvents") ? "upcoming" : "previous"}
                         />
                     </Grid>
                 )
@@ -61,7 +62,7 @@ function PizzaEvents({ queryKey, query } : PizzaEventProps) {
   )
 }
 
-function PizzaEventCard({time, place, attendees }: IPizzaEvent) {
+function PizzaEventCard({time, place, attendees, eventType }: IPizzaEvent) {
 
     const date = convertToDateObject(time)
     const dayOfTheWeek = date.toLocaleDateString('en-US', {weekday: 'long'})
@@ -71,6 +72,22 @@ function PizzaEventCard({time, place, attendees }: IPizzaEvent) {
     minutes = minutes.length == 1 ? "0" + minutes : minutes
     day = day.length == 1 ? "0" + day : day
     month = month.length == 1 ? "0" + month : month
+
+    const countAcceptedAttendees = (attendeesList: string[]) => {
+        let acceptedCount = 0
+        attendeesList.forEach((attendee: string) => {
+            if (attendee.includes(";")) {
+                const attendeeStatusList = attendee.split(";");
+                const status = attendeeStatusList[attendeeStatusList.length - 1];
+
+                if (status === "attending") {
+                    acceptedCount++;
+                }
+            }
+        })
+
+        return acceptedCount.toString();
+    }
 
     return (
         <Card variant="outlined">
@@ -99,9 +116,17 @@ function PizzaEventCard({time, place, attendees }: IPizzaEvent) {
                     <Grid item>
                         <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start"}}>
                             <GroupOutlined sx={{ mr: 1 }}/>
-                            <Typography variant="body2" color="primary">
-                                3/5 har takket ja
-                            </Typography>
+                            {
+                                eventType === "upcoming" ? (
+                                    <Typography variant="body2" color="primary">
+                                        {`${countAcceptedAttendees(attendees)}/${attendees.length} has accepted invitations`}
+                                    </Typography>
+                                ) : (
+                                    <Typography variant="body2">
+                                        {`${attendees.length} participated`}
+                                    </Typography>
+                                )
+                            }
                         </Box>
                     </Grid>
                 </Grid>
