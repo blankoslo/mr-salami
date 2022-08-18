@@ -1,4 +1,4 @@
-import { Button, Box, Container, Divider, Grid, TextField, Typography } from "@mui/material";
+import { Button, Box, Container, Divider, Grid, TextField, Typography, Card, CardContent, CircularProgress } from "@mui/material";
 import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -10,7 +10,7 @@ import { useState } from "react";
 import { INewPizzaEvent, IRestaurant } from "types";
 import CustomDay from "./CustomPickersDay";
 import DayPicker from "./DayPicker";
-import { Clear } from "@mui/icons-material";
+import { Clear, GroupOutlined, LocationOn } from "@mui/icons-material";
 
 export interface IWeek{
     weeknumber: number
@@ -44,10 +44,17 @@ function CreateRandomPizzaEvents(chosenWeeks: IWeek[], days: string[], time: Dat
     return {events: myevents}
 }
 
-function WeekPicker(){
+interface WeekPickerProps {
+    setAccordionStateCallback: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+function WeekPicker(props : WeekPickerProps ){
+
+    const { setAccordionStateCallback } = props;
+
     const [week, setWeek] = useState<IWeek>({weeknumber:1, days: [new Date(Date.now())]})
     const [chosenWeeks, setChosenWeeks] = useState<IWeek[]>([])
-    const [days, setDays] = useState<string[]>([])
+    const [days, setDays] = useState<string[]>(["Tuesday", "Wednesday"])
     const [time, setTime] = useState<Date>(new Date(0, 0, 0, 18, 0))
     const [value, setValue] = useState<Date | null>(new Date());
 
@@ -73,6 +80,7 @@ function WeekPicker(){
     function handleSubmitEvents(){
         let events = CreateRandomPizzaEvents(chosenWeeks, days, time, data)
         mutation.mutate(events);
+        setAccordionStateCallback(false);
     }
 
     const handleDeleteChosenWeek = (index: number) => {
@@ -104,7 +112,7 @@ function WeekPicker(){
                             const lastChosenDayString = `${week.days[week.days.length - 1].getDate()}.${week.days[week.days.length - 1].getMonth() + 1}`
                             const weekString = `${firstChosenDayString} - ${lastChosenDayString}`
                             return (
-                                <Grid item xs={12} container direction="row" justifyContent="space-between" alignItems="center">
+                                <Grid key={index} item xs={12} container direction="row" justifyContent="space-between" alignItems="center">
                                     <Grid item>
                                         <Box sx={{ py: 1}}>
                                             <Typography sx={{ my: 1 }} variant="subtitle2" component="span">{week.weeknumber}</Typography>
@@ -125,7 +133,15 @@ function WeekPicker(){
                 </Grid>
             
                 <Grid item xs={12}>
+                    <Typography variant="body1">2. Which days do you the pizzabot to choose from when sending invites?</Typography>
+                </Grid>
+
+                <Grid item xs={12}>
                     <DayPicker days={days} setDays={setDays} />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Typography variant="body1">3. What time do you want pizza events to start?</Typography>
                 </Grid>
                 <Grid item xs={12}>
                 <LocalizationProvider  adapterLocale={nb} dateAdapter={AdapterDateFns}>
@@ -141,9 +157,51 @@ function WeekPicker(){
                     />
                 </LocalizationProvider>
                 </Grid>
+
                 <Grid item xs={12}>
-                <Button onClick={handleSubmitEvents}>Lag events</Button>
+                        <Card variant="outlined" sx={{backgroundColor: "primary.light"}}>
+                            <CardContent>
+                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start"}}>
+                                    <GroupOutlined sx={{ mr: 1 }}/>
+                                    <Typography variant="body2" color="primary" fontWeight="bold">
+                                        5 guests
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start"}}>
+                                    <LocationOn sx={{ mr: 1 }}/>
+                                    <Typography variant="body2" color="primary" fontWeight="bold">
+                                        Random restaurants
+                                    </Typography>
+                                </Box>
+                                <Typography variant="subtitle1">
+                                    Pizzabot choses the restaurants and who to invite so you don’t have to.
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+
+                <Grid container item xs={12} direction="row" spacing={3}>
+                    <Grid item xs={7}>
+                        {
+                            mutation.isLoading
+                            ? <CircularProgress />
+                            : <Button 
+                                fullWidth
+                                disabled={chosenWeeks.length == 0 || days.length == 0 || time == null}
+                                variant="contained"
+                                onClick={handleSubmitEvents}>
+                                    Save
+                                </Button>
+                        }
+                    </Grid>
+                    <Grid item xs={5}>
+                        <Button onClick={() => setAccordionStateCallback(false)} fullWidth variant="text">Cancel</Button>
+                    </Grid>
                 </Grid>
+
+                {/* <Grid item xs={12}>
+                    <Button onClick={handleSubmitEvents}>Lag events</Button>
+                </Grid> */}
             </Grid>
 
         </form>

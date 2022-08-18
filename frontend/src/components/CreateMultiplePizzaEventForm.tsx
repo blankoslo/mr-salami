@@ -91,41 +91,7 @@ function CreateMultiplePizzaEventForm(props : CreateMultiplePizzaEventProps ) {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <WeekPicker />
-                    </Grid>
-                    
-                    <Grid item xs={12}>
-                        <Card variant="outlined" sx={{backgroundColor: "primary.light"}}>
-                            <CardContent>
-                                <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "flex-start"}}>
-                                    <GroupOutlined sx={{ mr: 1 }}/>
-                                    <Typography variant="body2" color="primary" fontWeight="bold">
-                                        5 guests
-                                    </Typography>
-                                </Box>
-                                <Typography variant="subtitle1">
-                                    Pizzabot chooses who to invite so you don't have to.
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid container item xs={12} direction="row" spacing={3}>
-                        <Grid item xs={7}>
-                            {
-                                mutation.isLoading
-                                ? <CircularProgress />
-                                : <Button 
-                                    fullWidth
-                                    disabled={pizzaPlace === ''}
-                                    variant="contained"
-                                    onClick={handleEventSubmit}>
-                                        Save
-                                    </Button>
-                            }
-                        </Grid>
-                        <Grid item xs={5}>
-                            <Button onClick={() => setAccordionStateCallback(false)} fullWidth variant="text">Cancel</Button>
-                        </Grid>
+                        <WeekPicker setAccordionStateCallback={setAccordionStateCallback} />
                     </Grid>
                 </Grid>
         </Container>

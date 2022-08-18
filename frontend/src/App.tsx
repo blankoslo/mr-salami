@@ -61,8 +61,6 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-
-              <Route path="/weekpicker" element={<WeekPicker/>}/>
             </Routes>
         </Router>
 

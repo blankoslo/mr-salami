@@ -58,7 +58,7 @@ export default function DayPicker({
   };
 
   return (
-      <FormControl>
+      <FormControl sx={{ width: "100%"}}>
         <InputLabel id="demo-multiple-chip-label">Days</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
