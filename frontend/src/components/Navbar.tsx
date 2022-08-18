@@ -10,6 +10,7 @@ function Navbar() {
 
     const [drawerOpen, setDrawerOpen] = useState(false);
 
+    const navigate = useNavigate();
     const theme = useTheme();
     const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -29,7 +30,7 @@ function Navbar() {
 
     return (
         <AppBar position="static" sx={{ mb: 4 }}>
-            <Container>
+            {/* <Container> */}
             {
                 isDesktop ? 
                 
@@ -41,7 +42,7 @@ function Navbar() {
                             </IconButton>
                         </Grid>
                         <Grid item>
-                            <Typography variant="h5">Pizza</Typography>
+                            <Typography variant="h5" onClick={() => navigate("/")} sx={{ cursor: "pointer" }}>Pizza</Typography>
                         </Grid>
                     </Grid>
                 )
@@ -62,7 +63,7 @@ function Navbar() {
 
                 )
             }
-            </Container>
+            {/* </Container> */}
             <NavbarDrawer anchor={isDesktop ? "left" : "right"} drawerOpen={drawerOpen} toggleDrawer={toggleDrawer}/>
         </AppBar>
     )

@@ -9,7 +9,7 @@ import PizzaEventsTabs from 'components/PizzaEventsTabs';
 
 function HomePage() {
   return (
-    <Container>
+    <Container maxWidth="sm">
         <Grid container spacing={6}>
             <Grid item xs={12} container spacing={3} alignItems="center">
                 <Grid item>
