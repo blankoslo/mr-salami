@@ -118,8 +118,12 @@ function PizzaEventCard({time, place, attendees, eventType }: IPizzaEvent) {
                             <GroupOutlined sx={{ mr: 1 }}/>
                             {
                                 eventType === "upcoming" ? (
-                                    <Typography variant="body2" color="primary">
-                                        {`${countAcceptedAttendees(attendees)}/${attendees.length} has accepted invitations`}
+                                    <Typography variant="body2" color={attendees.length > 0 ? "primary" : ""}>
+                                        {
+                                            attendees.length > 0
+                                            ? `${countAcceptedAttendees(attendees)}/${attendees.length} has accepted invitations`
+                                            : `Invitation will be sent out 10 days in advance`
+                                        }
                                     </Typography>
                                 ) : (
                                     <Typography variant="body2">
