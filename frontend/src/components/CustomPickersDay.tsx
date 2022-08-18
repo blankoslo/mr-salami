@@ -44,12 +44,16 @@ const CustomPickersDay = styled(PickersDay, {
 
 export default function CustomDay({
     weekdays,
-    setWeekdays
+    setWeekdays,
+    value,
+    setValue
 }: {
   weekdays: IWeek,
   setWeekdays: React.Dispatch<React.SetStateAction<IWeek>>
+  value: Date | null,
+  setValue: React.Dispatch<React.SetStateAction<Date | null>>
 }) {
-  const [value, setValue] = React.useState<Date | null>(new Date());
+  // const [value, setValue] = React.useState<Date | null>(new Date());
 
   const renderWeekPickerDay = (
     date: Date,
@@ -91,18 +95,19 @@ export default function CustomDay({
   return (
     <LocalizationProvider adapterLocale={nb} dateAdapter={AdapterDateFns}>
       <StaticDatePicker
+        disablePast
         displayStaticWrapperAs="desktop"
         label="Week picker"
         value={value}
         onChange={(newValue) => {
-          setValue(newValue);
           if(newValue){
+            setValue(newValue);
             setWeekdays({weeknumber: getWeek(newValue, {locale: nb}), days: getDaysInWeek(newValue)})
           }
 
         }}
         renderDay={renderWeekPickerDay}
-        renderInput={(params) => <TextField {...params} />}
+        renderInput={(params) => <TextField {...params} fullWidth/>}
         inputFormat="'Week of' MMM d"
       />
     </LocalizationProvider>

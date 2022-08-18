@@ -58,13 +58,13 @@ export default function DayPicker({
   };
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl>
         <InputLabel id="demo-multiple-chip-label">Days</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
+          fullWidth
           value={days}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Days" />}
@@ -88,6 +88,5 @@ export default function DayPicker({
           ))}
         </Select>
       </FormControl>
-    </div>
   );
 }

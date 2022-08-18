@@ -12,15 +12,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import CustomSnackbar from 'components/CustomSnackbar';
 import { DesktopDatePicker, MobileDatePicker, TimePicker } from '@mui/x-date-pickers';
 import { useTheme } from '@mui/material/styles';
+import WeekPicker from './WeekPicker';
 
-interface CreatePizzaEventProps {
-    restaurants: IRestaurant[],
+interface CreateMultiplePizzaEventProps {
     setAccordionStateCallback: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function CreatePizzaEventForm(props : CreatePizzaEventProps ) {
+function CreateMultiplePizzaEventForm(props : CreateMultiplePizzaEventProps ) {
 
-    const { restaurants, setAccordionStateCallback } = props;
+    const { setAccordionStateCallback } = props;
 
     const queryClient = useQueryClient();
 
@@ -64,15 +64,13 @@ function CreatePizzaEventForm(props : CreatePizzaEventProps ) {
         setAccordionStateCallback(false);
     }
 
-    console.log(restaurants ? restaurants : "Could not get rstaurants");
-
     return (
         <Container>
             { 
                 mutation.isError ? (
                     <CustomSnackbar
                         alertType='error'
-                        alertMessage='Could not add new pizza event.'
+                        alertMessage='Could not add new pizza events.'
                         duration={6000}
                         />
                         ) : null
@@ -82,69 +80,20 @@ function CreatePizzaEventForm(props : CreatePizzaEventProps ) {
                 mutation.isSuccess ? (
                     <CustomSnackbar 
                         alertType='success'
-                        alertMessage='Successfully added new pizza event!'
+                        alertMessage='Successfully added new pizza events!'
                         duration={6000}
                     />
                 ) : null
             }
                 <Grid container direction="column" spacing={3}>
                     <Grid item xs={12}>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            {
-                                isDesktop ?
-                                (
-                                    <DesktopDatePicker
-                                        disablePast
-                                        label="Date"
-                                        inputFormat="MM/dd/yyyy"
-                                        value={date}
-                                        onChange={handleDateChange}
-                                        renderInput={(params) => <TextField {...params} fullWidth />}
-                                    />
-                                )
-                                :
-                                (
-                                    <MobileDatePicker
-                                        disablePast
-                                        label="Date"
-                                        inputFormat="MM/dd/yyyy"
-                                        value={date}
-                                        onChange={handleDateChange}
-                                        renderInput={(params) => <TextField {...params} fullWidth />}
-                                    />
-                                )
-                            }
+                        <Typography variant="body1">1. Which weeks do you want pizza events?</Typography>
+                    </Grid>
 
-                        </LocalizationProvider>
-                    </Grid>
                     <Grid item xs={12}>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <TimePicker
-                                label="Time"
-                                ampm={false}
-                                value={date}
-                                onChange={handleDateChange}
-                                renderInput={(params) => <TextField {...params} fullWidth />}
-                            />
-                        </LocalizationProvider>
+                        <WeekPicker />
                     </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            value={pizzaPlace}
-                            onChange={handlePizzaPlaceChange}
-                            select // tell TextField to render select
-                            label="Restaurant"
-                            fullWidth
-                        >
-                            {
-                                restaurants ?
-                                restaurants.map((restaurant: IRestaurant) => {
-                                    return <MenuItem key={restaurant.id} value={restaurant.name}>{restaurant.name}</MenuItem>
-                                })
-                                : <MenuItem>Could not get restaurants</MenuItem>
-                            }
-                        </TextField>
-                    </Grid>
+                    
                     <Grid item xs={12}>
                         <Card variant="outlined" sx={{backgroundColor: "primary.light"}}>
                             <CardContent>
@@ -160,7 +109,7 @@ function CreatePizzaEventForm(props : CreatePizzaEventProps ) {
                             </CardContent>
                         </Card>
                     </Grid>
-                    <Grid container item direction="row" spacing={3}>
+                    <Grid container item xs={12} direction="row" spacing={3}>
                         <Grid item xs={7}>
                             {
                                 mutation.isLoading
@@ -183,4 +132,4 @@ function CreatePizzaEventForm(props : CreatePizzaEventProps ) {
     )
 }
 
-export default CreatePizzaEventForm;
+export default CreateMultiplePizzaEventForm;
