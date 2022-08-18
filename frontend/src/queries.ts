@@ -2,7 +2,7 @@ import { INewPizzaEvent, INewRestaurant, EditRestaurantProps } from "types";
 
 const PROD = "https://oppstart22-gruppe2-pizzabot.herokuapp.com"
 const DEV = "http://localhost:8080"
-const URL = DEV
+const URL = PROD
 
 type UsernamePassword = {
   username: string | null ,

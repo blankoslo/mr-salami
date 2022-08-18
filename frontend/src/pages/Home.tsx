@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchAllRestaurants } from 'queries';
 
 import CreatePizzaEventAccordion from "components/CreatePizzaEventAccordion";
+import CreateMultiplePizzaEventsAccordion from 'components/CreateMultiplePizzaEventsAccordion';
 import PizzaEventsTabs from 'components/PizzaEventsTabs';
 
 function HomePage() {
@@ -21,12 +22,8 @@ function HomePage() {
                     <CreatePizzaEventAccordion />
                 </Grid>
                 <Grid item>
-                    <CreatePizzaEventAccordion />
+                    <CreateMultiplePizzaEventsAccordion />
                 </Grid>
-                {/* <Typography variant="h6" component="h6">Upcoming</Typography>
-                <PizzaEvents queryKey={['upcomingPizzaEvents']} query={fetchUpcomingPizzaEvents}/> */}
-                    {/* <Typography variant="h6" component="h6">Old</Typography>
-                    <PizzaEvents queryKey={['allPizzaEvents']} query={fetchAllPizzaEvents}/> */}
             </Grid>
             <Grid item xs={12}>
                 <PizzaEventsTabs />
