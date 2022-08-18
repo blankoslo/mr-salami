@@ -35,14 +35,14 @@ function CreatePizzaEventForm(props : CreatePizzaEventProps ) {
     const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
 
     const [pizzaPlace, setPizzaPlace] = useState("");
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState<Date | null>(new Date());
 
     const handlePizzaPlaceChange = (e: any) => {
         setPizzaPlace(e.target.value);
     }
 
-    const handleDateChange = (e: any) => {
-        setDate(e.target.value);
+    const handleDateChange = (newValue: Date | null) => {
+        setDate(newValue);
     }
 
     const handleEventSubmit = (e: any) => {
@@ -63,8 +63,6 @@ function CreatePizzaEventForm(props : CreatePizzaEventProps ) {
         mutation.mutate(newEventData);
         setAccordionStateCallback(false);
     }
-
-    console.log(restaurants ? restaurants : "Could not get rstaurants");
 
     return (
         <Container>
