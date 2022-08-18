@@ -28,4 +28,6 @@ INSERT INTO invitations (event_id,slack_id, rsvp) VALUES( 'tre', 'U02JDEXKZJQ', 
 INSERT INTO invitations (event_id,slack_id, rsvp) VALUES( 'tre', 'U02CDLPFJKA', 'attending' );
 INSERT INTO invitations (event_id,slack_id, rsvp) VALUES( 'tre', 'U02AU5AHXGW', 'attending' );
 
+UPDATE events SET time=(time + interval '18 hour') WHERE id='en' or id='to' or id='tre';
+
 COMMIT;
